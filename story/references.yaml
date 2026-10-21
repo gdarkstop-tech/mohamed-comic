@@ -27,7 +27,9 @@ references:
   mohamed_face_art:   {source: source/cover_chapter_one.webp, box: [175, 215, 350, 425], kind: art, role: identity}
   mohamed_outfit_art: {source: source/cover_chapter_one.webp, box: [0, 300, 430, 690],   kind: art, role: outfit}
   weaver_cover_pose:  {source: source/cover_chapter_one.webp, box: [330, 280, 750, 720], kind: art, role: costume}
-  cairo_night_skyline: {source: source/cover_chapter_one.webp, box: [640, 400, 1024, 700], kind: art, role: setting}
+  cairo_night_skyline: {source: source/cover_chapter_one.webp, box: [755, 405, 1024, 700], kind: art, role: setting}
+  # Mohamed as drawn on the approved cover (head and collar; no lettering, no spider shirt).
+  mohamed_cover_art:  {source: source/cover_chapter_one.webp, box: [166, 218, 356, 440], kind: art, role: identity}
 
   # ------------------------------------------------------------ WEAVER suit sheet
   weaver_suit_front:

@@ -6,9 +6,10 @@ Contract (developers.cloudflare.com, FLUX.2 [klein] 4B):
   input_image_0..input_image_3 (binary, each within 512x512). Steps are fixed at 4.
   Response: {"result": {"image": "<base64>"}, "success": true, ...}
 
-Pricing (Workers AI pricing page): 5.37 neurons per input 512x512 tile and
-26.05 neurons per output 512x512 tile. Free plan: 10,000 neurons per UTC day;
-exceeding it returns internal error 3036 / HTTP 429.
+Pricing (Workers AI pricing page, checked 2026-10-21) is per model, see PRICING.
+Free plan: 10,000 neurons per UTC day; exceeding it returns internal error
+3036 / HTTP 429. A model without a known price is refused, so the quota guard
+can never under-count.
 """
 
 from __future__ import annotations
@@ -37,8 +38,15 @@ from weaver.secrets import Secret, mask_account_id, redact
 
 API_BASE = "https://api.cloudflare.com/client/v4"
 TILE = 512
+MEGAPIXEL = 1024 * 1024
+KLEIN_4B = "@cf/black-forest-labs/flux-2-klein-4b"
+KLEIN_9B = "@cf/black-forest-labs/flux-2-klein-9b"
+# klein-4b: neurons per 512x512 tile.  klein-9b: neurons per megapixel (1024x1024).
 NEURONS_PER_INPUT_TILE = 5.37
 NEURONS_PER_OUTPUT_TILE = 26.05
+KLEIN_9B_FIRST_MP = 1363.64
+KLEIN_9B_EXTRA_MP = 181.82
+KLEIN_9B_INPUT_MP = 181.82
 
 QUOTA_CODES = {3036}
 TRANSIENT_CODES = {3040, 3007, 3008}
@@ -49,6 +57,20 @@ INVALID_CODES = {5007, 3042, 3006, 3003, 5004}
 
 def tiles(width: int, height: int) -> int:
     return math.ceil(width / TILE) * math.ceil(height / TILE)
+
+
+def estimate_neurons(model: str, width: int, height: int, ref_sizes: list[tuple[int, int]]) -> float:
+    """Conservative cost from the published per-model rates (partial units round up)."""
+    if model == KLEIN_4B:
+        out = tiles(width, height) * NEURONS_PER_OUTPUT_TILE
+        inp = sum(tiles(w, h) for w, h in ref_sizes) * NEURONS_PER_INPUT_TILE
+    elif model == KLEIN_9B:
+        extra_mp = math.ceil(max(0.0, width * height / MEGAPIXEL - 1.0))
+        out = KLEIN_9B_FIRST_MP + extra_mp * KLEIN_9B_EXTRA_MP
+        inp = sum(math.ceil(w * h / MEGAPIXEL) for w, h in ref_sizes) * KLEIN_9B_INPUT_MP
+    else:
+        raise InvalidRequest(f"No known neuron price for model {model}; refusing to use it.")
+    return round(out + inp, 2)
 
 
 def detect_format(data: bytes) -> str | None:
@@ -78,6 +100,7 @@ class CloudflareWorkersAI:
     ):
         if not account_id or not api_token:
             raise AuthError("Cloudflare credentials are missing (CLOUDFLARE_ACCOUNT_ID / CLOUDFLARE_API_TOKEN).")
+        estimate_neurons(model, 512, 512, [])  # refuses models without a known price
         self._account = account_id
         self._token = api_token
         self.model = model
@@ -123,9 +146,8 @@ class CloudflareWorkersAI:
 
     # -------------------------------------------------------------- generation
     def estimate_cost(self, request: GenerationRequest) -> float:
-        out = tiles(request.width, request.height) * NEURONS_PER_OUTPUT_TILE
-        inp = sum(tiles(r.width, r.height) for r in request.references) * NEURONS_PER_INPUT_TILE
-        return round(out + inp, 2)
+        return estimate_neurons(self.model, request.width, request.height,
+                                [(r.width, r.height) for r in request.references])
 
     def _validate(self, request: GenerationRequest) -> None:
         if not request.prompt.strip():

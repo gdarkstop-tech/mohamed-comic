@@ -15,8 +15,9 @@ from weaver.story import Character, Panel, Style
 @dataclass(frozen=True)
 class RefSlot:
     ref_id: str
-    purpose: str            # identity | outfit | style | setting | explicit
+    purpose: str            # identity | drawn | outfit | style | setting | explicit
     character: str | None = None
+    kind: str = "art"       # photo | art
 
 
 @dataclass(frozen=True)
@@ -26,11 +27,14 @@ class PanelPlan:
     warnings: tuple[str, ...]
 
 
-def _first_available(lib: ReferenceLibrary, ids, roles: set[str] | None = None, skip=()) -> str | None:
+def _first_available(lib: ReferenceLibrary, ids, roles: set[str] | None = None, skip=(),
+                     kind: str | None = None) -> str | None:
     for ref_id in ids:
         if ref_id in skip or ref_id not in lib.specs:
             continue
         if roles and lib.specs[ref_id].role not in roles:
+            continue
+        if kind and lib.specs[ref_id].kind != kind:
             continue
         if lib.available(ref_id):
             return ref_id
@@ -60,12 +64,23 @@ def select_refs(panel: Panel, bible: dict[str, Character], style: Style, lib: Re
         if lib.specs[ref].kind != "photo" and any(lib.specs.get(r) and lib.specs[r].kind == "photo" for r in char.refs):
             warnings.append(f"{char.name}: real photo not on disk, using approved artwork for identity")
         if len(slots) < max_refs:
-            slots.append(RefSlot(ref, "identity", cid))
+            slots.append(RefSlot(ref, "identity", cid, lib.specs[ref].kind))
             used.add(ref)
-    if style.style_ref and lib.available(style.style_ref) and len(slots) < max_refs:
+    # The character as already drawn in the approved artwork: carries both the face
+    # in the house style and the style itself, so it outranks a generic style anchor.
+    for cid in panel.characters:
+        if len(slots) >= max_refs:
+            break
+        ref = _first_available(lib, bible[cid].refs, {"identity", "costume"}, skip=used, kind="art")
+        if ref:
+            slots.append(RefSlot(ref, "drawn", cid))
+            used.add(ref)
+    has_drawn = any(s.purpose == "drawn" for s in slots)
+    if not has_drawn and style.style_ref and lib.available(style.style_ref) and len(slots) < max_refs:
         slots.append(RefSlot(style.style_ref, "style"))
         used.add(style.style_ref)
-    if panel.setting and style.setting_ref and lib.available(style.setting_ref) and len(slots) < max_refs:
+    if (panel.setting and style.setting_ref and style.setting_ref not in used
+            and lib.available(style.setting_ref) and len(slots) < max_refs):
         slots.append(RefSlot(style.setting_ref, "setting"))
         used.add(style.setting_ref)
     for cid in panel.characters:
@@ -80,7 +95,15 @@ def select_refs(panel: Panel, bible: dict[str, Character], style: Style, lib: Re
 
 def build_prompt(panel: Panel, bible: dict[str, Character], style: Style, slots: list[RefSlot]) -> str:
     index = {(s.purpose, s.character): i for i, s in enumerate(slots)}
-    lines = [f"Comic book panel, {panel.shot}: {panel.scene}." if panel.shot else f"Comic book panel: {panel.scene}."]
+    drawn = [i for i, s in enumerate(slots) if s.purpose == "drawn"]
+    lines = [f"{style.medium or 'Comic book panel'}."]
+    # Style transfer instruction first, in the documented FLUX.2 multi-reference
+    # form ("the person from image X ... in the style of image Y").
+    for cid in panel.characters:
+        if ("identity", cid) in index and ("drawn", cid) in index and slots[index[("identity", cid)]].kind == "photo":
+            lines.append(f"Paint the person from image {index[('identity', cid)]} ({bible[cid].name}) with their "
+                         f"exact real face, in exactly the same painting style as image {index[('drawn', cid)]}.")
+    lines.append(f"Scene, {panel.shot}: {panel.scene}." if panel.shot else f"Scene: {panel.scene}.")
     has_identity = False
     for cid in panel.characters:
         char = bible[cid]
@@ -89,8 +112,14 @@ def build_prompt(panel: Panel, bible: dict[str, Character], style: Style, slots:
             text += f"; wearing {char.outfit}"
         refs = []
         if ("identity", cid) in index:
-            refs.append(f"image {index[('identity', cid)]} shows {char.name}'s exact appearance")
+            i = index[("identity", cid)]
+            if slots[i].kind == "photo":
+                refs.append(f"image {i} is a real photo of {char.name}: keep this exact face")
+            else:
+                refs.append(f"image {i} shows {char.name}'s exact appearance")
             has_identity = True
+        if ("drawn", cid) in index:
+            refs.append(f"image {index[('drawn', cid)]} shows {char.name} as drawn in this comic")
         if ("outfit", cid) in index:
             refs.append(f"image {index[('outfit', cid)]} shows {char.name}'s outfit")
         if refs:
@@ -101,7 +130,10 @@ def build_prompt(panel: Panel, bible: dict[str, Character], style: Style, slots:
         lines.append("Use " + ", ".join(f"image {i}" for i in explicit) + " as visual references for this scene.")
     if has_identity:
         lines.append(style.identity_rule)
-    if ("style", None) in index:
+    if drawn:
+        lines.append(f"Render the whole image in exactly the same style as "
+                     f"{', '.join(f'image {i}' for i in drawn)}: {style.description}.")
+    elif ("style", None) in index:
         lines.append(f"Draw it in the exact art style of image {index[('style', None)]}: {style.description}.")
     else:
         lines.append(f"Art style: {style.description}.")

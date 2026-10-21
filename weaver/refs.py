@@ -10,7 +10,7 @@ import yaml
 from PIL import Image, ImageDraw
 
 from weaver.config import REFERENCES_DIR, STORY_DIR
-from weaver.imaging import fit_within, load_rgb, to_png_bytes
+from weaver.imaging import fit_within, load_rgb, scale_to_fit, to_png_bytes
 from weaver.providers.base import ReferenceInput
 from weaver.state import sha256_bytes
 
@@ -77,8 +77,8 @@ class ReferenceLibrary:
         return im
 
     def prepare(self, ref_id: str, max_side: int) -> ReferenceInput:
-        """Crop + downscale to fit the provider limit; returns PNG bytes and their hash."""
-        im = fit_within(self.crop(ref_id), max_side)
+        """Crop + scale to the provider limit; returns PNG bytes and their hash."""
+        im = scale_to_fit(self.crop(ref_id), max_side)
         data = to_png_bytes(im)
         return ReferenceInput(ref_id=ref_id, png_bytes=data, width=im.width, height=im.height, sha256=sha256_bytes(data))
 

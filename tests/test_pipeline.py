@@ -60,7 +60,11 @@ class PipelineTests(unittest.TestCase):
         photos.mkdir()
         (photos / "hero.jpg").write_bytes(noisy_image(400, 500, 3, "JPEG"))
         plan = prod.plan(self.script.panel("a2"))
-        self.assertEqual(plan.slots[0].ref_id, "hero_photo")
+        self.assertEqual([s.ref_id for s in plan.slots], ["hero_photo", "hero_face", "hero_body"])
+        self.assertEqual([s.purpose for s in plan.slots], ["identity", "drawn", "outfit"])
+        self.assertIn("image 0 is a real photo of Hero", plan.prompt)
+        self.assertIn("image 1 shows Hero as drawn in this comic", plan.prompt)
+        self.assertIn("Paint the person from image 0 (Hero) with their exact real face, in exactly the same painting style as image 1", plan.prompt)
         self.assertFalse(plan.warnings)
 
     def test_quota_stop_saves_progress_and_resumes(self):
@@ -176,6 +180,8 @@ class ReferencePrepTests(unittest.TestCase):
             self.assertEqual(lib.crop("r2").getpixel((50, 50)), (255, 255, 255))
             prepared = lib.prepare("r2", 512)
             self.assertEqual((prepared.width, prepared.height), (512, 409))
+            small = lib.prepare("r1", 1024)  # 500x400 crop is scaled up to the limit
+            self.assertEqual((small.width, small.height), (1024, 819))
 
 
 if __name__ == "__main__":

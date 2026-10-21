@@ -51,6 +51,15 @@ class CloudflareProviderTests(unittest.TestCase):
         self.assertAlmostEqual(p.estimate_cost(req), 4 * 26.05 + 1 * 5.37, places=2)
         self.assertEqual(tiles(1312, 768), 6)
 
+    def test_klein_9b_megapixel_pricing_and_unknown_models_refused(self):
+        from weaver.providers.cloudflare import KLEIN_9B, estimate_neurons
+        self.assertAlmostEqual(estimate_neurons(KLEIN_9B, 1024, 1024, [(512, 512)] * 3), 1363.64 + 3 * 181.82, places=2)
+        self.assertAlmostEqual(estimate_neurons(KLEIN_9B, 1280, 1024, []), 1363.64 + 181.82, places=2)
+        with self.assertRaises(InvalidRequest):
+            estimate_neurons("@cf/some/unpriced-model", 512, 512, [])
+        with self.assertRaises(InvalidRequest):
+            CloudflareWorkersAI(Secret(ACCOUNT), Secret(TOKEN), "@cf/some/unpriced-model")
+
     def test_rejects_more_than_four_refs_and_oversized_refs(self):
         p, session = provider([])
         with self.assertRaises(InvalidRequest):

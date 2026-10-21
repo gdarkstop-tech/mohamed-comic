@@ -1,21 +1,34 @@
-# House style for every panel. Taken from the approved WEAVER artwork
-# (support-network page, suit sheet and villains lineup).
+# House style for every panel: the look of the author's approved WEAVER art
+# (Chapter One cover and the friends portraits), NOT the flatter inked style of
+# the support-network page, which the author rejected on 2026-10-21.
+#
+# Style is anchored by references: each character's own approved drawn version
+# (see "refs" in characters.yaml) carries the style. style_ref is the fallback
+# for panels with no drawn character reference.
 
-style_ref: style_inked_group          # reference image used as the style anchor
-setting_ref: cairo_night_skyline      # optional extra reference for city exteriors
+style_ref: cairo_night_skyline        # cover-style Cairo night (no lettering)
+setting_ref: cairo_night_skyline      # Nile, lit bridges, pyramids for exteriors
+
+# Opening words of every prompt; the model weighs them most. The approved art
+# is near-realistic painted portraits (the "comic" feel comes from frames and
+# lettering added later). The words "comic book panel" / "ink outlines" produced
+# flat cartoon line-art, which the author rejected twice.
+medium: Highly detailed semi-realistic digital painting, cinematic poster art
 
 description: >-
-  modern American comic book art, bold confident black ink outlines, detailed
-  cel-shaded colouring, cinematic lighting with warm amber street light against
-  deep blue and teal night shadows, subtle halftone texture, expressive faces,
-  set in present-day Cairo, Egypt
+  semi-realistic digital painting with realistic, detailed faces and soft painted
+  skin shading, finely detailed hair, glossy highlights, rich vivid saturated
+  colours, dramatic cinematic lighting with warm orange city glow against deep
+  blue night, soft rim light, highly detailed painted background, set in
+  present-day Cairo, Egypt
 
 # FLUX does not use negative prompts; lettering is added later by the compositor,
 # so the image itself must contain none.
 no_text: >-
   No text, letters, words, numbers, speech bubbles, captions, signatures, logos or
-  watermarks anywhere in the image. Single illustration, no panel borders.
+  watermarks anywhere in the image, including on clothing. Full-bleed single
+  illustration with no frame and no panel borders.
 
 identity_rule: >-
   Keep each person's real facial features, face shape, hairstyle and glasses exactly
-  as in their reference image, redrawn in the comic style.
+  as in their reference images.

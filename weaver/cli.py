@@ -16,8 +16,10 @@ from weaver.secrets import ACCOUNT_ID, API_TOKEN, env_file_is_ignored, get_crede
 
 TEST_SCENES = {
     "mohamed": (
-        "Mohamed sits on the stone ledge of a Cairo rooftop at night with his backpack beside him, "
-        "the Nile and glowing city lights behind him and the Cairo Tower in the distance, a thoughtful half-smile"
+        "Mohamed sits on the stone ledge of an old Cairo rooftop at night with his backpack beside him, "
+        "looking out over the city with wonder; behind him the Nile with its lit bridges, the Cairo Tower "
+        "(a tall slender lattice tower with a lotus-shaped top) and the pyramids glowing on the horizon "
+        "under a full moon"
     ),
 }
 
@@ -47,12 +49,12 @@ def load_all():
     return settings, lib, bible, style, script
 
 
-def make_producer(with_provider: bool = True):
+def make_producer(with_provider: bool = True, model: str | None = None):
     from weaver.produce import Producer
     from weaver.providers import get_provider
 
     settings, lib, bible, style, script = load_all()
-    provider = get_provider(settings) if with_provider else None
+    provider = get_provider(settings, model) if with_provider else None
     return Producer(settings, workspace_dir(), script, bible, style, lib, provider)
 
 
@@ -179,19 +181,18 @@ def cmd_refs(args) -> int:
 
 
 def _print_plan(producer, panel_ids: list[str]) -> float:
-    from weaver.providers.cloudflare import NEURONS_PER_INPUT_TILE, NEURONS_PER_OUTPUT_TILE, tiles
-    from weaver.imaging import fit_within
+    from weaver.providers.cloudflare import estimate_neurons
 
     total = 0.0
     for pid in panel_ids:
         panel = producer.script.panel(pid)
         plan = producer.plan(panel)
         w, h = producer.panel_size(panel)
-        ref_tiles = 0
+        sizes = []
         for slot in plan.slots:
-            im = fit_within(producer.lib.crop(slot.ref_id), producer.settings.ref_max_side)
-            ref_tiles += tiles(im.width, im.height)
-        cost = tiles(w, h) * NEURONS_PER_OUTPUT_TILE + ref_tiles * NEURONS_PER_INPUT_TILE
+            ref = producer.lib.prepare(slot.ref_id, producer.settings.ref_max_side)
+            sizes.append((ref.width, ref.height))
+        cost = estimate_neurons(producer.settings.model, w, h, sizes)
         total += cost
         state = producer.state
         tag = "LOCKED" if state.is_locked(pid) else ("has art" if state.has_panel(pid) else "pending")
@@ -225,7 +226,7 @@ def cmd_test(args) -> int:
         print(f"No default test scene for '{character}'. Pass --scene \"...\".")
         return 2
     width, height = (int(v) for v in args.size.lower().split("x"))
-    producer = make_producer()
+    producer = make_producer(model=args.model)
     try:
         meta = producer.character_test(character, args.scene or TEST_SCENES[character], width, height, args.seed)
     except BudgetExceeded as exc:
@@ -438,6 +439,7 @@ def build_parser() -> argparse.ArgumentParser:
         t.add_argument("--scene")
         t.add_argument("--size", default="1024x1024")
         t.add_argument("--seed", type=int, default=20261021)
+        t.add_argument("--model", help="try another priced model for this test only (weaver.yaml unchanged)")
         t.set_defaults(fn=cmd_test)
 
     p = sub.add_parser("plan", help="show refs, sizes and cost estimate (no API calls)")

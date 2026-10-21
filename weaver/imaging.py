@@ -23,6 +23,13 @@ def fit_within(im: Image.Image, max_side: int) -> Image.Image:
     return im.resize(size, Image.LANCZOS)
 
 
+def scale_to_fit(im: Image.Image, max_side: int) -> Image.Image:
+    """Scale up or down so the longer side is max_side (both sides stay <= max_side)."""
+    scale = min(max_side / im.width, max_side / im.height)
+    size = (max(1, math.floor(im.width * scale)), max(1, math.floor(im.height * scale)))
+    return im.resize(size, Image.LANCZOS)
+
+
 def to_png_bytes(im: Image.Image) -> bytes:
     buf = io.BytesIO()
     im.save(buf, format="PNG", optimize=True)

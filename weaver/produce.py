@@ -188,7 +188,7 @@ class Producer:
     def character_test(self, character_id: str, scene: str, width: int, height: int, seed: int) -> dict:
         """One identity/style test image for a character, through the same guard and ledger."""
         panel = Panel(id=f"test-{character_id}", page=0, shot="medium shot, three-quarter view",
-                      scene=scene, characters=(character_id,))
+                      scene=scene, characters=(character_id,), setting=True)
         plan = self.plan(panel)
         request = self.build_request(plan, width, height, seed)
         with RunLock(self.workspace / "state" / "run.lock"):

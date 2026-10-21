@@ -14,13 +14,16 @@ characters:
     # Canon (Volume One): "young Egyptian man, big voluminous dark curly hair, thin
     # round glasses (always on), slim build, warm brown skin. Default look: beige
     # overshirt over a white graphic tee, jeans, black backpack."
+    # Author correction 2026-10-21: Mohamed is FAIR-skinned, not brown.
     look: >-
       young Egyptian man, big voluminous dark curly hair, thin round glasses (always on),
-      slim build, warm brown skin
-    outfit: beige overshirt over a white graphic tee, jeans, black backpack
-    # mohamed_outfit_art (cover) shows a black spider tee, which is not his canon
-    # default look, so it is not used as an outfit reference.
-    refs: [mohamed_photo, mohamed_face_art]
+      slim build, fair light skin
+    # "graphic tee" is kept wordless: the model otherwise invents lettering on it.
+    outfit: beige overshirt over a white T-shirt with a small abstract graphic print, jeans, black backpack
+    # Photo first (real face), then Mohamed as drawn on the approved cover (the
+    # face in the house style). mohamed_outfit_art (cover) shows a black spider
+    # tee, which is not his canon default look, so it is not an outfit reference.
+    refs: [mohamed_photo, mohamed_cover_art, mohamed_face_art]
 
   weaver:
     name: The Spider (WEAVER)
