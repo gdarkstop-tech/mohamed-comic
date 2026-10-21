@@ -82,6 +82,28 @@ class ReferenceLibrary:
         data = to_png_bytes(im)
         return ReferenceInput(ref_id=ref_id, png_bytes=data, width=im.width, height=im.height, sha256=sha256_bytes(data))
 
+    def artwork_names(self) -> dict[str, str]:
+        """Stem -> relative path for every approved-artwork source file in the registry."""
+        names = {}
+        for spec in self.specs.values():
+            if "*" not in spec.source:
+                names[Path(spec.source).stem] = spec.source
+        return names
+
+    def import_artwork(self, src: Path, name: str) -> Path:
+        """Store approved artwork under the exact file name the registry expects."""
+        target = self.artwork_names().get(name)
+        if target is None:
+            raise ValueError(f"'{name}' is not an artwork name. Known: {', '.join(sorted(self.artwork_names()))}")
+        dest = self.root / target
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        im = load_rgb(src)
+        if src.suffix.lower() == dest.suffix.lower():
+            shutil.copy2(src, dest)
+        else:
+            im.save(dest, lossless=True) if dest.suffix.lower() == ".webp" else im.save(dest)
+        return dest
+
     def import_photo(self, src: Path, character: str) -> Path:
         if src.suffix.lower() not in PHOTO_EXTS:
             raise ValueError(f"{src} is not a supported image type")

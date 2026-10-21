@@ -42,6 +42,24 @@ show Cloudflare's own usage figure).
 
 Then run `python3 -m weaver doctor` and expect `Result: READY`.
 
+## Start of every session (cloud containers start empty)
+
+`private/` is not in git, so a fresh cloud session has no images. If
+`python3 -m weaver refs list` shows MISSING sources and the author attached
+images, look at each attachment, identify it, and import it:
+
+| Attachment | Command |
+|---|---|
+| Chapter One cover ("Mohamed and the Spider") | `refs import <file> --as cover_chapter_one` |
+| WEAVER suit sheet (front/back, Sky Stone, First Gear) | `refs import <file> --as weaver_suit_sheet` |
+| Friends lineup (7 portraits) | `refs import <file> --as friends_lineup` |
+| Support network (Amm Ramadan … Bondo') | `refs import <file> --as support_network` |
+| Villains and monsters lineup | `refs import <file> --as villains_lineup` |
+| Real photo labelled with a name | `refs import <file> --as <character id>` |
+
+Character ids: mohamed, ali, omar, aliyy, abdulrahman, adham, ahmed, jana.
+Then run `refs preview` and look at the sheet before generating anything.
+
 ## Reference photos
 
 Real photos go in `private/references/photos/<character>.<ext>` (for example

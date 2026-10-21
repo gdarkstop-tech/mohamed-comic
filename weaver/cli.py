@@ -167,6 +167,10 @@ def cmd_refs(args) -> int:
         if not args.file or not args.character:
             print("usage: python -m weaver refs import FILE --as CHARACTER")
             return 2
+        if args.character in lib.artwork_names():
+            dest = lib.import_artwork(Path(args.file), args.character)
+            print(f"Imported approved artwork -> {dest.relative_to(ROOT)} (git-ignored)")
+            return 0
         dest = lib.import_photo(Path(args.file), args.character)
         print(f"Imported {args.file} -> {dest.relative_to(ROOT)} (git-ignored). "
               f"Check the crop: python -m weaver refs preview --ids {args.character}_photo")
