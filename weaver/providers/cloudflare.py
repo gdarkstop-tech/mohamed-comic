@@ -85,6 +85,7 @@ class CloudflareWorkersAI:
         self.max_retries = max_retries
         self._http = session or requests.Session()
         self._sleep = sleep
+        self.last_usage_error: str | None = None
 
     # ------------------------------------------------------------------ helpers
     def _headers(self) -> dict[str, str]:
@@ -264,8 +265,10 @@ class CloudflareWorkersAI:
         """Neurons used today (UTC) according to Cloudflare analytics, or None if unavailable.
 
         Needs the optional 'Account Analytics: Read' permission. The neuron field
-        name is discovered by introspection rather than assumed.
+        name is discovered by introspection rather than assumed. On failure the
+        reason is kept in ``last_usage_error`` for the health check.
         """
+        self.last_usage_error = None
         try:
             schema = self._graphql(
                 'query { __type(name: "AccountAiInferenceAdaptiveGroupsSum") { fields { name } } }', {}
@@ -273,6 +276,7 @@ class CloudflareWorkersAI:
             fields = [f["name"] for f in ((schema.get("__type") or {}).get("fields") or [])]
             neuron_fields = [f for f in fields if "neuron" in f.lower()]
             if not neuron_fields:
+                self.last_usage_error = "no neuron field in the analytics schema"
                 return None
             field_name = neuron_fields[0]
             start = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
@@ -286,16 +290,19 @@ class CloudflareWorkersAI:
             )
             groups = data["viewer"]["accounts"][0]["aiInferenceAdaptiveGroups"]
             return float(sum((g.get("sum") or {}).get(field_name) or 0 for g in groups))
-        except (requests.RequestException, ValueError, KeyError, IndexError, TypeError, ProviderError):
+        except (requests.RequestException, ValueError, KeyError, IndexError, TypeError, ProviderError) as exc:
+            self.last_usage_error = self._clean(str(exc)) or type(exc).__name__
             return None
 
     def checks(self) -> list[CheckResult]:
         results = [self.verify_token(), self.check_model()]
         used = self.usage_today()
         if used is None:
+            reason = self.last_usage_error or "unknown"
+            hint = " — add 'Account > Account Analytics > Read' to the token" if "not authorized" in reason else ""
             results.append(CheckResult(
                 "Cloudflare-reported usage today", None,
-                "unavailable (add 'Account Analytics: Read' to the token to enable); local ledger still enforced",
+                f"unavailable ({reason}{hint}); the local ledger cap is still enforced",
             ))
         else:
             results.append(CheckResult("Cloudflare-reported usage today", True, f"{used:.1f} neurons used since 00:00 UTC"))
