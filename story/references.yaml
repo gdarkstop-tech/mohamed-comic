@@ -1,0 +1,84 @@
+# Reference image registry. Committed: holds only file names and crop boxes.
+# The images themselves live in the git-ignored private/references/ folder:
+#   private/references/source/  approved WEAVER artwork (cover, sheets, lineups)
+#   private/references/photos/  real photos, one per person: <character>.<ext>
+#
+# box:      absolute crop [left, top, right, bottom] in source pixels
+# box_rel:  relative crop (0..1), used for photos whose resolution may vary
+# masks:    absolute boxes painted white before cropping (hide stray lettering)
+# kind:     photo = real person (highest identity priority), art = approved artwork
+# role:     identity | outfit | costume | style | setting | detail
+#
+# Crops deliberately exclude captions, name labels and logos so the model does
+# not copy lettering into panels. Check them with: python -m weaver refs preview
+
+references:
+  # ---------------------------------------------------------------- real photos
+  mohamed_photo:     {source: photos/mohamed.*,     box_rel: [0.22, 0.00, 0.62, 0.70], kind: photo, role: identity}
+  ali_photo:         {source: photos/ali.*,         box_rel: [0.00, 0.26, 0.45, 0.66], kind: photo, role: identity}
+  omar_photo:        {source: photos/omar.*,        box_rel: [0.33, 0.27, 0.68, 0.62], kind: photo, role: identity}
+  aliyy_photo:       {source: photos/aliyy.*,       box_rel: [0.22, 0.36, 0.57, 0.58], kind: photo, role: identity}
+  abdulrahman_photo: {source: photos/abdulrahman.*, box_rel: [0.38, 0.36, 0.68, 0.92], kind: photo, role: identity}
+  adham_photo:       {source: photos/adham.*,       box_rel: [0.40, 0.17, 0.88, 0.55], kind: photo, role: identity}
+  ahmed_photo:       {source: photos/ahmed.*,       box_rel: [0.10, 0.21, 0.90, 0.66], kind: photo, role: identity}
+  jana_photo:        {source: photos/jana.*,        box_rel: [0.28, 0.03, 0.72, 0.46], kind: photo, role: identity}
+
+  # ------------------------------------------------- cover: "Mohamed and the Spider"
+  mohamed_face_art:   {source: source/cover_chapter_one.webp, box: [175, 215, 350, 425], kind: art, role: identity}
+  mohamed_outfit_art: {source: source/cover_chapter_one.webp, box: [0, 300, 430, 690],   kind: art, role: outfit}
+  weaver_cover_pose:  {source: source/cover_chapter_one.webp, box: [330, 280, 750, 720], kind: art, role: costume}
+  cairo_night_skyline: {source: source/cover_chapter_one.webp, box: [640, 400, 1024, 700], kind: art, role: setting}
+
+  # ------------------------------------------------------------ WEAVER suit sheet
+  weaver_suit_front:
+    source: source/weaver_suit_sheet.webp
+    box: [15, 85, 365, 935]
+    masks: [[15, 85, 116, 200], [264, 85, 365, 200]]
+    kind: art
+    role: costume
+  weaver_suit_back:
+    source: source/weaver_suit_sheet.webp
+    box: [380, 85, 680, 935]
+    masks: [[380, 85, 468, 200], [602, 85, 680, 200]]
+    kind: art
+    role: costume
+  weaver_sky_stone:      {source: source/weaver_suit_sheet.webp, box: [685, 85, 978, 338],   kind: art, role: detail}
+  weaver_lotus_bracelet: {source: source/weaver_suit_sheet.webp, box: [685, 402, 978, 590],  kind: art, role: detail}
+  weaver_eye_of_horus:   {source: source/weaver_suit_sheet.webp, box: [685, 665, 978, 848],  kind: art, role: detail}
+  weaver_first_gear:     {source: source/weaver_suit_sheet.webp, box: [1005, 105, 1280, 960], kind: art, role: costume}
+
+  # ------------------------------------------------------- friends lineup (art)
+  abdulrahman_art: {source: source/friends_lineup.webp, box: [8, 738, 213, 1012],     kind: art, role: identity}
+  jana_art:        {source: source/friends_lineup.webp, box: [228, 738, 433, 1012],   kind: art, role: identity}
+  ahmed_art:       {source: source/friends_lineup.webp, box: [448, 738, 653, 1012],   kind: art, role: identity}
+  adham_art:       {source: source/friends_lineup.webp, box: [668, 738, 860, 1012],   kind: art, role: identity}
+  aliyy_art:       {source: source/friends_lineup.webp, box: [872, 738, 1060, 1012],  kind: art, role: identity}
+  ali_art:         {source: source/friends_lineup.webp, box: [1068, 738, 1265, 1012], kind: art, role: identity}
+  omar_art:        {source: source/friends_lineup.webp, box: [1275, 738, 1530, 1012], kind: art, role: identity}
+  abdulrahman_body_art: {source: source/friends_lineup.webp, box: [0, 225, 240, 725],     kind: art, role: outfit}
+  jana_body_art:        {source: source/friends_lineup.webp, box: [250, 225, 440, 725],   kind: art, role: outfit}
+  ahmed_body_art:       {source: source/friends_lineup.webp, box: [445, 225, 650, 725],   kind: art, role: outfit}
+  adham_body_art:       {source: source/friends_lineup.webp, box: [655, 225, 875, 725],   kind: art, role: outfit}
+  aliyy_body_art:       {source: source/friends_lineup.webp, box: [880, 225, 1095, 725],  kind: art, role: outfit}
+  ali_body_art:         {source: source/friends_lineup.webp, box: [1100, 225, 1270, 725], kind: art, role: outfit}
+  omar_body_art:        {source: source/friends_lineup.webp, box: [1275, 350, 1536, 725], kind: art, role: outfit}
+
+  # ------------------------------------------------------ support network (art)
+  amm_ramadan_art:  {source: source/support_network.webp, box: [8, 205, 255, 445],     kind: art, role: identity}
+  amm_fathy_art:    {source: source/support_network.webp, box: [265, 205, 515, 445],   kind: art, role: identity}
+  major_yassin_art: {source: source/support_network.webp, box: [528, 205, 765, 435],   kind: art, role: identity}
+  mai_fawzy_art:    {source: source/support_network.webp, box: [772, 205, 1015, 435],  kind: art, role: identity}
+  dr_nermeen_art:   {source: source/support_network.webp, box: [1022, 205, 1270, 435], kind: art, role: identity}
+  bondo_art:        {source: source/support_network.webp, box: [1280, 205, 1530, 435], kind: art, role: identity}
+
+  # ------------------------------------------------------ villains lineup (art)
+  voltage_art:          {source: source/villains_lineup.webp, box: [15, 75, 250, 645],    kind: art, role: costume}
+  vesper_art:           {source: source/villains_lineup.webp, box: [225, 75, 385, 645],   kind: art, role: costume}
+  goliath_art:          {source: source/villains_lineup.webp, box: [385, 75, 575, 645],   kind: art, role: costume}
+  sentinel_art:         {source: source/villains_lineup.webp, box: [580, 75, 745, 645],   kind: art, role: costume}
+  kamal_raslan_art:     {source: source/villains_lineup.webp, box: [755, 75, 905, 645],   kind: art, role: identity}
+  turned_microbus_art:  {source: source/villains_lineup.webp, box: [925, 75, 1105, 645],  kind: art, role: costume}
+  turned_delivery_art:  {source: source/villains_lineup.webp, box: [1095, 75, 1275, 645], kind: art, role: costume}
+
+  # --------------------------------------------------------------- style anchors
+  style_inked_group: {source: source/support_network.webp, box: [560, 760, 1280, 1018], kind: art, role: style}

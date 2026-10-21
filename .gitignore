@@ -1,0 +1,22 @@
+# --- Secrets: never commit ---
+.env
+.env.*
+!.env.example
+
+# --- Private material: real-person likenesses, approved artwork, generated output ---
+# This repository is PUBLIC. Everything under private/ stays on this machine only.
+private/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+*.egg-info/
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

@@ -1,0 +1,178 @@
+# WEAVER character bible. Visual descriptions are taken from the approved
+# artwork and the real reference photos; roles are the captions on that artwork.
+#
+# refs: ordered by priority. For each character the pipeline sends the first
+# AVAILABLE identity reference (a real photo beats artwork), then fills spare
+# slots with style / outfit references. Max 4 images per request.
+#
+# OPEN QUESTIONS for the author are marked "# Q:".
+
+characters:
+  mohamed:
+    name: Mohamed
+    role: The protagonist. "One night that wasn't normal changed Mohamed's life forever."
+    look: >-
+      young man, voluminous dark curly hair, thin round metal-framed glasses,
+      warm light-brown skin, slim build, clean-shaven
+    outfit: >-
+      open cream/beige button-up overshirt over a black T-shirt printed with a gold
+      spider emblem and a small glowing blue gem, dark blue jeans, black backpack
+    refs: [mohamed_photo, mohamed_face_art, mohamed_outfit_art]
+
+  weaver:
+    name: The Spider (WEAVER)
+    role: Masked hero in the WEAVER suit. "From a mysterious rescue..."
+    # Q: Is the Spider on the cover a separate person, or Mohamed later on?
+    #    Mohamed holds a spider mask on the cover and the "First Gear" sheet
+    #    shows a curly-haired wearer. The pilot keeps the identity hidden.
+    look: >-
+      masked figure, face fully covered by a dark navy mask with round glowing amber
+      goggle lenses under a deep crimson hood
+    outfit: >-
+      dark navy armoured bodysuit with crimson panels, gold spider emblem across the
+      chest with a glowing blue diamond "Sky Stone" at its centre, long tattered
+      crimson hooded coat, gold lotus-engraved bracers, belt with an Eye of Horus
+      buckle, fingerless gloves, crimson-and-navy boots with gold trim
+    refs: [weaver_suit_front, weaver_cover_pose, weaver_suit_back]
+
+  weaver_first_gear:
+    name: WEAVER (first gear)
+    role: Early home-made version of the WEAVER look.
+    look: curly dark hair under a red hood, round brass goggles, navy cloth face mask
+    outfit: >-
+      red hoodie with an orange spider print, black gloves, mechanical wrist launchers,
+      faded blue cargo jeans, red-and-white sneakers, black backpack
+    refs: [weaver_first_gear]
+
+  # ----------------------------------------------------------------- friends
+  abdulrahman:
+    name: Abdulrahman
+    role: The tech genius.
+    look: >-
+      young man, short dark curly hair, rectangular metal glasses, light skin, broad build
+    outfit: black short-sleeve shirt, black trousers, large black wristwatch
+    refs: [abdulrahman_photo, abdulrahman_art, abdulrahman_body_art]
+
+  jana:
+    name: Jana
+    role: The mind and the heart.
+    look: >-
+      young woman wearing a black hijab with a white under-scarf band, bright wide
+      smile, warm light-brown skin, small gold ring on the scarf
+    outfit: open black shirt-jacket over a black top, thin gold chain necklace, light blue jeans, black belt
+    refs: [jana_photo, jana_art, jana_body_art]
+
+  ahmed:
+    name: Ahmed
+    role: The professor.
+    look: >-
+      young man, short dark wavy hair, short dark beard, light skin
+    outfit: royal-blue varsity jacket with red-and-white trim over a white T-shirt, backpack straps
+    refs: [ahmed_photo, ahmed_art, ahmed_body_art]
+
+  adham:
+    name: Adham
+    role: Muscles and laughs.
+    look: >-
+      young man, backwards dark cap, full dark beard, muscular build
+    outfit: red-and-navy halved football jersey, dark shorts
+    # Q: Bondo's caption says "Adam's close friend" - is "Adam" Adham?
+    refs: [adham_photo, adham_art, adham_body_art]
+
+  aliyy:
+    name: Aliyy
+    role: Omar's loyal friend.
+    look: young man, short dark curly hair, lean athletic build
+    outfit: navy-and-white horizontal striped T-shirt, dark blue jeans, black smartwatch
+    refs: [aliyy_photo, aliyy_art, aliyy_body_art]
+
+  ali:
+    name: Ali
+    role: Always just in time.
+    look: >-
+      young man, voluminous dark curly hair falling over the forehead, thick black
+      rectangular glasses, light skin
+    outfit: black hoodie or black T-shirt, glowing blue smartwatch on the wrist
+    refs: [ali_photo, ali_art, ali_body_art]
+
+  omar:
+    name: Omar
+    role: Owner of Nile Group.
+    look: young man, very short dark hair, slim face, brown skin
+    outfit: black suit and black shirt, silver wristwatch, hands often steepled
+    refs: [omar_photo, omar_art, omar_body_art]
+
+  # ----------------------------------------------------------- support network
+  amm_ramadan:
+    name: Amm Ramadan
+    role: The safe house. His shop is the front; the underground is the base.
+    look: elderly man, bald crown with grey hair at the sides, thick grey moustache, warm grin
+    outfit: loose off-white galabeya-style shirt, prayer beads, glass of tea in hand
+    refs: [amm_ramadan_art]
+  amm_fathy:
+    name: Amm Fathy
+    role: The mechanic. Builds and upgrades the gear.
+    look: middle-aged man, curly salt-and-pepper hair, grey stubble beard, tired focused eyes
+    outfit: navy mechanic's work shirt, work gloves
+    refs: [amm_fathy_art]
+  major_yassin:
+    name: Major Yassin
+    role: The officer. Intel, security support and legal cover.
+    look: middle-aged man, slicked dark hair greying at the temples, thick moustache, stern look
+    outfit: black Egyptian police officer's uniform with rank stars on the shoulders
+    refs: [major_yassin_art]
+  mai_fawzy:
+    name: Mai Fawzy
+    role: The photographer. Captures the truth and exposes corruption.
+    look: young woman, long dark wavy hair, sharp eyes
+    outfit: black jacket, professional DSLR camera
+    refs: [mai_fawzy_art]
+  dr_nermeen:
+    name: Dr. Nermeen
+    role: The doctor. Guides Ahmed on the science and the serum.
+    look: woman in a light beige hijab, calm intelligent expression
+    outfit: white lab coat over navy scrubs, stethoscope
+    refs: [dr_nermeen_art]
+  bondo:
+    name: Bondo'
+    role: The street kid. Parkour expert, scouts areas, gives access.
+    look: teenage boy, big dark curly hair, lively eyes
+    outfit: grey hoodie under a red-and-black jacket
+    refs: [bondo_art]
+
+  # ------------------------------------------------------------------ villains
+  voltage:
+    name: Voltage
+    look: hulking figure in black segmented armour with a dark visored helmet
+    outfit: glowing blue electric coils around both forearms, crackling lightning
+    refs: [voltage_art]
+  vesper:
+    name: Vesper
+    look: slender woman in a hooded purple bodysuit with a smooth purple visor
+    outfit: floating purple crystal drones around her
+    refs: [vesper_art]
+  goliath:
+    name: Goliath
+    look: enormous bald man with grey-brown stitched skin and a sad tired face
+    outfit: torn grey trousers, wristband marked H-07, barefoot
+    refs: [goliath_art]
+  sentinel:
+    name: Sentinel
+    look: sleek white-and-gold android with an ancient-Egyptian styled face mask and glowing blue eyes
+    outfit: white armour plating with gold Egyptian line patterns
+    refs: [sentinel_art]
+  kamal_raslan:
+    name: Kamal Raslan
+    look: bald middle-aged man with a short grey beard and a cold stare
+    outfit: black suit, black tie, gold watch, often on the phone
+    refs: [kamal_raslan_art]
+  turned_microbus_driver:
+    name: The Turned (microbus driver)
+    look: man transformed into a creature with cracked grey-black skin, glowing amber eyes, bony spikes on the shoulders
+    outfit: torn beige short-sleeve shirt, ragged trousers
+    refs: [turned_microbus_art]
+  turned_delivery_rider:
+    name: The Turned (delivery rider)
+    look: creature with cracked grey skin, glowing amber eyes, spikes along the arms and back
+    outfit: red motorcycle helmet, torn red-and-black delivery jacket, boots
+    refs: [turned_delivery_art]

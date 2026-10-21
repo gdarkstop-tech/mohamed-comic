@@ -1,0 +1,21 @@
+# House style for every panel. Taken from the approved WEAVER artwork
+# (support-network page, suit sheet and villains lineup).
+
+style_ref: style_inked_group          # reference image used as the style anchor
+setting_ref: cairo_night_skyline      # optional extra reference for city exteriors
+
+description: >-
+  modern American comic book art, bold confident black ink outlines, detailed
+  cel-shaded colouring, cinematic lighting with warm amber street light against
+  deep blue and teal night shadows, subtle halftone texture, expressive faces,
+  set in present-day Cairo, Egypt
+
+# FLUX does not use negative prompts; lettering is added later by the compositor,
+# so the image itself must contain none.
+no_text: >-
+  No text, letters, words, numbers, speech bubbles, captions, signatures, logos or
+  watermarks anywhere in the image. Single illustration, no panel borders.
+
+identity_rule: >-
+  Keep each person's real facial features, face shape, hairstyle and glasses exactly
+  as in their reference image, redrawn in the comic style.

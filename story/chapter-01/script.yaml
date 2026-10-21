@@ -1,0 +1,176 @@
+# =============================================================================
+#  CHAPTER ONE — "Mohamed and the Spider: Where It All Began"   (PILOT, 3 pages)
+# =============================================================================
+#  STATUS: DRAFT — NOT YET APPROVED BY THE AUTHOR.
+#  No WEAVER story text was available, so this pilot was drafted by Claude only
+#  from the approved cover's own lines:
+#    "One night that wasn't normal... changed Mohamed's life forever."
+#    "From a mysterious rescue... to a battle to save the city."
+#  plus the cast/villain sheets (the Turned microbus driver, the Spider in the
+#  WEAVER suit, Mohamed holding a spider mask on the rooftop).
+#  Replace or edit any scene/dialogue before generating; nothing here is canon.
+#
+#  Layout: each page is rows of panels. height/widths are relative weights.
+#  Lettering is added by the compositor (never drawn by the AI):
+#    type: caption | speech | thought | sfx
+#    at:   top-left | top | top-right | middle-left | middle | middle-right |
+#          bottom-left | bottom | bottom-right
+#    tail: [x, y] point (0..1 inside the panel) the speech tail points at
+# =============================================================================
+
+chapter: 1
+title: "Mohamed and the Spider — Where It All Began"
+status: draft
+pilot_pages: [1, 2, 3]
+
+pages:
+  # ---------------------------------------------------------------- PAGE 1
+  - number: 1
+    rows:
+      - {height: 1.25, panels: [p1-1]}
+      - {height: 1.0, panels: [p1-2, p1-3], widths: [3, 2]}
+      - {height: 1.1, panels: [p1-4]}
+    panels:
+      - id: p1-1
+        shot: extreme wide establishing shot at night
+        scene: >-
+          the Cairo skyline seen from above, the Nile reflecting city lights, lit
+          bridges, the Cairo Tower glowing on the right, distant pyramids lit in gold
+          on the horizon, a full moon in a deep blue sky
+        characters: []
+        refs: [cairo_night_skyline, style_inked_group]
+        lettering:
+          - {type: caption, text: "Cairo. One night that wasn't normal...", at: top-left}
+
+      - id: p1-2
+        shot: medium-wide shot, eye level
+        scene: >-
+          Mohamed walks alone down a narrow old Cairo side street at night, shop
+          shutters closed, warm yellow street lamps, looking down at his phone with
+          a tired expression, backpack on his shoulders
+        characters: [mohamed]
+        lettering:
+          - {type: caption, text: "...changed Mohamed's life forever.", at: top-left}
+          - {type: speech, speaker: mohamed, text: "Last microbus already left. Of course.", at: top-right, tail: [0.55, 0.35]}
+
+      - id: p1-3
+        shot: medium shot from behind Mohamed's shoulder
+        scene: >-
+          a white Cairo microbus parked crookedly at the curb, headlights flickering,
+          driver's door hanging open, a man slumped over the steering wheel inside;
+          Mohamed in the foreground seen from behind, stepping closer cautiously
+        characters: [mohamed]
+        lettering:
+          - {type: speech, speaker: mohamed, text: "Hey... are you okay?", at: top-left, tail: [0.25, 0.6]}
+
+      - id: p1-4
+        shot: dramatic close-up, low angle
+        scene: >-
+          the microbus driver turns toward the viewer as he transforms into one of
+          the Turned: skin cracking into grey-black plates, eyes glowing amber, bony
+          spikes tearing through his beige shirt, mouth open in a snarl, inside the
+          dark microbus lit by a flickering headlight
+        characters: [turned_microbus_driver]
+        lettering:
+          - {type: sfx, text: "GRRAAAH!", at: top-right}
+
+  # ---------------------------------------------------------------- PAGE 2
+  - number: 2
+    rows:
+      - {height: 1.0, panels: [p2-1, p2-2], widths: [3, 2]}
+      - {height: 1.55, panels: [p2-3]}
+      - {height: 0.95, panels: [p2-4]}
+    panels:
+      - id: p2-1
+        shot: dynamic action shot, slightly tilted
+        scene: >-
+          the Turned creature lunges out of the microbus at Mohamed; Mohamed stumbles
+          backwards against a graffiti-covered wall, arms raised, glasses slipping,
+          terrified, in a dark Cairo street at night
+        characters: [mohamed, turned_microbus_driver]
+        lettering:
+          - {type: speech, speaker: mohamed, text: "What ARE you?!", at: top-left, tail: [0.3, 0.45]}
+
+      - id: p2-2
+        shot: action shot with strong motion lines
+        scene: >-
+          a glowing crimson-and-gold web line snaps across the frame and yanks the
+          Turned creature backwards through the air mid-leap
+        characters: [turned_microbus_driver]
+        lettering:
+          - {type: sfx, text: "THWIP!", at: top-right}
+
+      - id: p2-3
+        shot: full-width splash panel, low heroic angle
+        scene: >-
+          the Spider in the WEAVER suit lands in a crouch on the roof of the white
+          microbus, long crimson coat flaring in the wind, the blue Sky Stone glowing
+          on the chest, amber goggle lenses glowing, full moon and Cairo rooftops behind
+        characters: [weaver]
+        lettering:
+          - {type: speech, speaker: weaver, text: "Run. Now.", at: top-left, tail: [0.45, 0.4]}
+
+      - id: p2-4
+        shot: close-up on Mohamed's face
+        scene: >-
+          Mohamed sitting on the ground, frozen, staring upward in awe, glasses
+          askew, the blue glow of the Sky Stone reflected in his lenses
+        characters: [mohamed]
+        lettering:
+          - {type: speech, speaker: mohamed, text: "No way...", at: top-right, tail: [0.55, 0.55]}
+
+  # ---------------------------------------------------------------- PAGE 3
+  - number: 3
+    rows:
+      - {height: 1.0, panels: [p3-1, p3-2]}
+      - {height: 1.45, panels: [p3-3]}
+      - {height: 1.0, panels: [p3-4, p3-5], widths: [2, 3]}
+    panels:
+      - id: p3-1
+        shot: medium action shot
+        scene: >-
+          the Spider in the WEAVER suit binds the snarling Turned creature to a street
+          lamppost with glowing crimson-and-gold web strands
+        characters: [weaver, turned_microbus_driver]
+        lettering:
+          - {type: caption, text: "It was over in seconds.", at: top-left}
+
+      - id: p3-2
+        shot: medium shot
+        scene: >-
+          the Spider offers a gloved hand to help Mohamed up from the pavement;
+          Mohamed reaches for it, still shaken
+        characters: [weaver, mohamed]
+        lettering:
+          - {type: speech, speaker: weaver, text: "That man wasn't the first. He won't be the last.", at: top-left, tail: [0.35, 0.35]}
+
+      - id: p3-3
+        shot: wide shot from behind, mirroring the chapter cover
+        scene: >-
+          a Cairo rooftop at night: Mohamed and the Spider sit side by side on the
+          ledge looking out over the Nile, the glowing Cairo Tower and distant lit
+          pyramids under a full moon
+        characters: [mohamed, weaver]
+        setting: true
+        lettering:
+          - {type: speech, speaker: mohamed, text: "Who are you?", at: top-left, tail: [0.35, 0.5]}
+          - {type: speech, speaker: weaver, text: "Someone who was in the wrong place once. Like you.", at: top-right, tail: [0.62, 0.45]}
+
+      - id: p3-4
+        shot: close-up on hands
+        scene: >-
+          the Spider's gloved hand holds out a crimson-and-black spider mask with gold
+          web lines toward the viewer
+        characters: [weaver]
+        lettering:
+          - {type: speech, speaker: weaver, text: "Keep this. You'll know when.", at: top-left, tail: [0.5, 0.4]}
+
+      - id: p3-5
+        shot: medium-wide shot
+        scene: >-
+          Mohamed stands alone on the rooftop at night holding the crimson spider mask,
+          looking out at the glowing city; a faint web line trails off into the sky
+        characters: [mohamed]
+        lettering:
+          - {type: caption, text: "Where it all began...", at: top-left}
+          - {type: caption, text: "To be continued", at: bottom-right}
