@@ -14,7 +14,7 @@
 
 references:
   # ---------------------------------------------------------------- real photos
-  mohamed_photo:     {source: photos/mohamed.*,     box_rel: [0.22, 0.00, 0.62, 0.70], kind: photo, role: identity}
+  mohamed_photo:     {source: photos/mohamed.*,     box_rel: [0.26, 0.00, 0.60, 0.66], kind: photo, role: identity}
   ali_photo:         {source: photos/ali.*,         box_rel: [0.00, 0.26, 0.45, 0.66], kind: photo, role: identity}
   omar_photo:        {source: photos/omar.*,        box_rel: [0.33, 0.27, 0.68, 0.62], kind: photo, role: identity}
   aliyy_photo:       {source: photos/aliyy.*,       box_rel: [0.22, 0.36, 0.57, 0.58], kind: photo, role: identity}

@@ -9,15 +9,18 @@
 
 characters:
   mohamed:
-    name: Mohamed
+    name: Mohamed Wessam
     role: The protagonist. "One night that wasn't normal changed Mohamed's life forever."
+    # Canon (Volume One): "young Egyptian man, big voluminous dark curly hair, thin
+    # round glasses (always on), slim build, warm brown skin. Default look: beige
+    # overshirt over a white graphic tee, jeans, black backpack."
     look: >-
-      young man, voluminous dark curly hair, thin round metal-framed glasses,
-      warm light-brown skin, slim build, clean-shaven
-    outfit: >-
-      open cream/beige button-up overshirt over a black T-shirt printed with a gold
-      spider emblem and a small glowing blue gem, dark blue jeans, black backpack
-    refs: [mohamed_photo, mohamed_face_art, mohamed_outfit_art]
+      young Egyptian man, big voluminous dark curly hair, thin round glasses (always on),
+      slim build, warm brown skin
+    outfit: beige overshirt over a white graphic tee, jeans, black backpack
+    # mohamed_outfit_art (cover) shows a black spider tee, which is not his canon
+    # default look, so it is not used as an outfit reference.
+    refs: [mohamed_photo, mohamed_face_art]
 
   weaver:
     name: The Spider (WEAVER)
