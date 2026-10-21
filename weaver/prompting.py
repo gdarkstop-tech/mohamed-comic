@@ -96,14 +96,8 @@ def select_refs(panel: Panel, bible: dict[str, Character], style: Style, lib: Re
 def build_prompt(panel: Panel, bible: dict[str, Character], style: Style, slots: list[RefSlot]) -> str:
     index = {(s.purpose, s.character): i for i, s in enumerate(slots)}
     drawn = [i for i, s in enumerate(slots) if s.purpose == "drawn"]
-    lines = [f"{style.medium or 'Comic book panel'}."]
-    # Style transfer instruction first, in the documented FLUX.2 multi-reference
-    # form ("the person from image X ... in the style of image Y").
-    for cid in panel.characters:
-        if ("identity", cid) in index and ("drawn", cid) in index and slots[index[("identity", cid)]].kind == "photo":
-            lines.append(f"Paint the person from image {index[('identity', cid)]} ({bible[cid].name}) with their "
-                         f"exact real face, in exactly the same painting style as image {index[('drawn', cid)]}.")
-    lines.append(f"Scene, {panel.shot}: {panel.scene}." if panel.shot else f"Scene: {panel.scene}.")
+    opening = style.medium or "Comic book panel"
+    lines = [f"{opening}, {panel.shot}: {panel.scene}." if panel.shot else f"{opening}: {panel.scene}."]
     has_identity = False
     for cid in panel.characters:
         char = bible[cid]
@@ -114,7 +108,7 @@ def build_prompt(panel: Panel, bible: dict[str, Character], style: Style, slots:
         if ("identity", cid) in index:
             i = index[("identity", cid)]
             if slots[i].kind == "photo":
-                refs.append(f"image {i} is a real photo of {char.name}: keep this exact face")
+                refs.append(f"image {i} is a real photo of {char.name}: keep this exact face, face shape and skin tone")
             else:
                 refs.append(f"image {i} shows {char.name}'s exact appearance")
             has_identity = True
@@ -131,7 +125,7 @@ def build_prompt(panel: Panel, bible: dict[str, Character], style: Style, slots:
     if has_identity:
         lines.append(style.identity_rule)
     if drawn:
-        lines.append(f"Render the whole image in exactly the same style as "
+        lines.append(f"Draw the whole image in exactly the same art style as "
                      f"{', '.join(f'image {i}' for i in drawn)}: {style.description}.")
     elif ("style", None) in index:
         lines.append(f"Draw it in the exact art style of image {index[('style', None)]}: {style.description}.")

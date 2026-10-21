@@ -17,7 +17,8 @@ from weaver.secrets import ACCOUNT_ID, API_TOKEN, env_file_is_ignored, get_crede
 TEST_SCENES = {
     "mohamed": (
         "Mohamed sits on the stone ledge of an old Cairo rooftop at night with his backpack beside him, "
-        "looking out over the city with wonder; behind him the Nile with its lit bridges, the Cairo Tower "
+        "his face turned toward the viewer with a calm, confident half-smile; behind him the Nile with its "
+        "lit bridges, the Cairo Tower "
         "(a tall slender lattice tower with a lotus-shaped top) and the pyramids glowing on the horizon "
         "under a full moon"
     ),

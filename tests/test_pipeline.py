@@ -62,9 +62,9 @@ class PipelineTests(unittest.TestCase):
         plan = prod.plan(self.script.panel("a2"))
         self.assertEqual([s.ref_id for s in plan.slots], ["hero_photo", "hero_face", "hero_body"])
         self.assertEqual([s.purpose for s in plan.slots], ["identity", "drawn", "outfit"])
-        self.assertIn("image 0 is a real photo of Hero", plan.prompt)
+        self.assertIn("image 0 is a real photo of Hero: keep this exact face, face shape and skin tone", plan.prompt)
         self.assertIn("image 1 shows Hero as drawn in this comic", plan.prompt)
-        self.assertIn("Paint the person from image 0 (Hero) with their exact real face, in exactly the same painting style as image 1", plan.prompt)
+        self.assertIn("Draw the whole image in exactly the same art style as image 1", plan.prompt)
         self.assertFalse(plan.warnings)
 
     def test_quota_stop_saves_progress_and_resumes(self):

@@ -9,17 +9,19 @@
 style_ref: cairo_night_skyline        # cover-style Cairo night (no lettering)
 setting_ref: cairo_night_skyline      # Nile, lit bridges, pyramids for exteriors
 
-# Opening words of every prompt; the model weighs them most. The approved art
-# is near-realistic painted portraits (the "comic" feel comes from frames and
-# lettering added later). The words "comic book panel" / "ink outlines" produced
-# flat cartoon line-art, which the author rejected twice.
-medium: Highly detailed semi-realistic digital painting, cinematic poster art
+# Opening words of every prompt; the model weighs them most. The author picked
+# test #4 (2026-10-21, flux-2-klein-9b) as the closest to Mohamed and to the comic:
+# a painted comic-book-cover look WITH subtle ink outlines. Plain "comic book
+# panel" / heavy inks gave flat line-art (rejected), and "semi-realistic poster
+# painting" without inks left the comic look and lost the likeness (rejected).
+medium: Semi-realistic digital comic painting, premium comic book cover quality
 
 description: >-
-  semi-realistic digital painting with realistic, detailed faces and soft painted
-  skin shading, finely detailed hair, glossy highlights, rich vivid saturated
-  colours, dramatic cinematic lighting with warm orange city glow against deep
-  blue night, soft rim light, highly detailed painted background, set in
+  semi-realistic digital painting like a premium comic book cover: realistic
+  detailed faces with soft painted skin shading, expressive eyes, finely detailed
+  hair, painterly rendering with subtle ink outlines, vivid saturated colours,
+  dramatic cinematic lighting with warm orange city glow against deep blue night,
+  glowing highlights and soft rim light, highly detailed background, set in
   present-day Cairo, Egypt
 
 # FLUX does not use negative prompts; lettering is added later by the compositor,

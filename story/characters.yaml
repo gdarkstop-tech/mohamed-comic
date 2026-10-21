@@ -14,10 +14,11 @@ characters:
     # Canon (Volume One): "young Egyptian man, big voluminous dark curly hair, thin
     # round glasses (always on), slim build, warm brown skin. Default look: beige
     # overshirt over a white graphic tee, jeans, black backpack."
-    # Author correction 2026-10-21: Mohamed is FAIR-skinned, not brown.
+    # Author correction 2026-10-21: Mohamed is FAIR-skinned, not brown. Face shape
+    # taken from his real photo (test #4 drew him too long-faced).
     look: >-
-      young Egyptian man, big voluminous dark curly hair, thin round glasses (always on),
-      slim build, fair light skin
+      young Egyptian man, round face with soft full cheeks, big voluminous dark curly
+      hair, thin round glasses (always on), slim build, fair light skin
     # "graphic tee" is kept wordless: the model otherwise invents lettering on it.
     outfit: beige overshirt over a white T-shirt with a small abstract graphic print, jeans, black backpack
     # Photo first (real face), then Mohamed as drawn on the approved cover (the
