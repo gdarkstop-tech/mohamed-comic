@@ -81,8 +81,8 @@ in `story/references.yaml`.
 | Author says | Command |
 |---|---|
 | "check everything" / "is it working?" | `python3 -m weaver doctor` |
-| "make the Mohamed test image" | `python3 -m weaver test-mohamed` (then show the file) |
-| "test <name>" | `python3 -m weaver test-character <id> --scene "..."` |
+| "make the Mohamed test image" | `python3 -m weaver test-mohamed --model @cf/black-forest-labs/flux-2-klein-9b` (then show the file) |
+| "test <name>" | `python3 -m weaver test-character <id> --model @cf/black-forest-labs/flux-2-klein-9b` (every friend has a canon scene; `--scene "..."` overrides) |
 | "what will it cost?" / "show the plan" | `python3 -m weaver plan [--pages 1-3] [--show-prompts]` |
 | "make the pilot" / "continue" | `python3 -m weaver produce` (pilot pages by default) |
 | "redo panel 2-3" | `python3 -m weaver regen p2-3 [--seed N]` |

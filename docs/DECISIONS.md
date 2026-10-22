@@ -58,3 +58,15 @@ it fails on the Free plan, evaluate in order:
 Hugging Face ZeroGPU Spaces (FLUX.2 klein demos) and a Kaggle notebook running
 the open 4B weights on the free GPU allowance. Quotas must be confirmed at that
 time. One account per service, no quota evasion.
+
+## D8. Approved look: klein-9b, painted comic cover with subtle inks (2026-10-21)
+Of the Mohamed tests, the author picked #4 (flux-2-klein-9b, "semi-realistic
+digital comic painting, premium comic book cover", subtle ink outlines) and #7
+(same, face toward the viewer, round face from his photo) as right: "it looks
+like Mohamed". Rejected: heavy inks / flat line-art (#1-#3) and a semi-realistic
+poster painting without inks (#5-#6, klein-4b), which "left the comic idea".
+Character tests therefore run on klein-9b (about 1,700-2,100 neurons each, so at
+most four a day under the 9,000 cap). Panels still default to klein-4b in
+`weaver.yaml`; moving the pilot to 9B (about four panels a day) is the author's
+call before production starts.
+
