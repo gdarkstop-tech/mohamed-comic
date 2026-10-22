@@ -67,6 +67,15 @@ class PipelineTests(unittest.TestCase):
         self.assertIn("Draw the whole image in exactly the same art style as image 1", plan.prompt)
         self.assertFalse(plan.warnings)
 
+    def test_house_style_art_anchors_style_without_extra_reference(self):
+        import dataclasses
+        style = dataclasses.replace(self.style, house_sources=("source/sheet.png",))
+        prod = Producer(self.settings, self.workspace, self.script, self.bible, style, self.lib, MockProvider())
+        plan = prod.plan(self.script.panel("a2"))
+        self.assertEqual([s.ref_id for s in plan.slots], ["hero_face", "hero_body"])
+        self.assertIn("image 0 shows Hero's exact appearance", plan.prompt)
+        self.assertIn("Draw the whole image in exactly the same art style as image 0", plan.prompt)
+
     def test_quota_stop_saves_progress_and_resumes(self):
         prod = self.producer(MockProvider(fail_after=1))
         report = prod.run(["a1", "a2", "a3"])

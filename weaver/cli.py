@@ -14,13 +14,52 @@ from weaver.config import ENV_FILE, FONTS_DIR, PRIVATE_DIR, REFERENCES_DIR, ROOT
 from weaver.quota import Ledger, QuotaGuard, next_reset
 from weaver.secrets import ACCOUNT_ID, API_TOKEN, env_file_is_ignored, get_credential, interactive_setup, mask_account_id
 
+# One identity/style test scene per character: (scene, send the Cairo skyline
+# reference). The friends' scenes follow their canon introduction shots
+# (Volume One), minus any lettering.
+_SKYLINE = ("the Nile with its lit bridges and the Cairo Tower (a tall slender lattice tower with a "
+            "lotus-shaped top) under a full moon")
 TEST_SCENES = {
     "mohamed": (
         "Mohamed sits on the stone ledge of an old Cairo rooftop at night with his backpack beside him, "
         "his face turned toward the viewer with a calm, confident half-smile; behind him the Nile with its "
         "lit bridges, the Cairo Tower "
         "(a tall slender lattice tower with a lotus-shaped top) and the pyramids glowing on the horizon "
-        "under a full moon"
+        "under a full moon",
+        True,
+    ),
+    "abdulrahman": (
+        "Abdulrahman sits at a desk at night in front of several glowing blue computer monitors showing "
+        "abstract graphs and lines, turned toward the viewer with a confident, friendly half-smile",
+        False,
+    ),
+    "omar": (
+        "Omar sits in a dark, luxurious office at the top of a tower at night, his fingers steepled, "
+        "looking at the viewer with a calm, confident expression; behind him a large window shows the "
+        "lights of Cairo and the Nile",
+        False,
+    ),
+    "ali": (
+        "Ali stands in a dark room in front of a wall covered with many old stopped clocks, the watch-like "
+        "device on his left wrist glowing blue-white, looking at the viewer with a calm, knowing expression",
+        False,
+    ),
+    "aliyy": (
+        "Aliyy stands on an old Cairo rooftop at night, smiling warmly at the viewer and raising a fist in a "
+        f"cheerful salute; behind him {_SKYLINE}",
+        True,
+    ),
+    "adham": (
+        "Adham stands in a gym holding a heavy dumbbell in one hand, grinning at the viewer",
+        False,
+    ),
+    "ahmed": (
+        "Ahmed stands in a university pharmacy lab holding up a small glowing glass vial, laughing warmly",
+        False,
+    ),
+    "jana": (
+        "Jana sits in a cosy university library at night with her open laptop, smiling warmly at the viewer",
+        False,
     ),
 }
 
@@ -227,9 +266,12 @@ def cmd_test(args) -> int:
         print(f"No default test scene for '{character}'. Pass --scene \"...\".")
         return 2
     width, height = (int(v) for v in args.size.lower().split("x"))
+    preset_scene, preset_setting = TEST_SCENES.get(character, (None, True))
+    scene = args.scene or preset_scene
+    setting = args.setting if args.setting is not None else (preset_setting if not args.scene else True)
     producer = make_producer(model=args.model)
     try:
-        meta = producer.character_test(character, args.scene or TEST_SCENES[character], width, height, args.seed)
+        meta = producer.character_test(character, scene, width, height, args.seed, setting=setting)
     except BudgetExceeded as exc:
         print(f"Not started: {exc}")
         return 3
@@ -441,6 +483,8 @@ def build_parser() -> argparse.ArgumentParser:
         t.add_argument("--size", default="1024x1024")
         t.add_argument("--seed", type=int, default=20261021)
         t.add_argument("--model", help="try another priced model for this test only (weaver.yaml unchanged)")
+        t.add_argument("--setting", action=argparse.BooleanOptionalAction, default=None,
+                       help="send the Cairo skyline reference (default: per test scene)")
         t.set_defaults(fn=cmd_test)
 
     p = sub.add_parser("plan", help="show refs, sizes and cost estimate (no API calls)")

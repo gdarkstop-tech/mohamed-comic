@@ -52,61 +52,81 @@ characters:
     refs: [weaver_first_gear]
 
   # ----------------------------------------------------------------- friends
+  # Looks and outfits follow the canon (Volume One, "THE SQUAD" and "THE
+  # GROWN-UPS" sheets). Skin tone is not stated there: it comes from the photo
+  # or the approved artwork.
   abdulrahman:
     name: Abdulrahman
     role: The tech genius.
     look: >-
-      young man, short dark curly hair, rectangular metal glasses, light skin, broad build
-    outfit: black short-sleeve shirt, black trousers, large black wristwatch
+      young Egyptian man, short dark hair with faded sides, rectangular dark-framed
+      glasses, athletic gym-trained build (broad shoulders, strong arms), clean-shaven
+    outfit: black polo shirt, black trousers, silver wristwatch
     refs: [abdulrahman_photo, abdulrahman_art, abdulrahman_body_art]
 
   jana:
     name: Jana
     role: The mind and the heart.
     look: >-
-      young woman wearing a black hijab with a white under-scarf band, bright wide
-      smile, warm light-brown skin, small gold ring on the scarf
-    outfit: open black shirt-jacket over a black top, thin gold chain necklace, light blue jeans, black belt
+      young Egyptian woman, always in a black hijab with a thin white under-scarf band
+      at the forehead (no hair ever visible), round face, big warm smile, brown eyes
+    outfit: >-
+      black shirt with an open black overshirt, thin gold chain necklace, light-blue
+      jeans with a black belt, white sneakers
     refs: [jana_photo, jana_art, jana_body_art]
 
   ahmed:
     name: Ahmed
     role: The professor.
     look: >-
-      young man, short dark wavy hair, short dark beard, light skin
-    outfit: royal-blue varsity jacket with red-and-white trim over a white T-shirt, backpack straps
+      young Egyptian man, pharmacy student, short dark hair faded on the sides, short
+      dark beard along the jaw and a light moustache, warm brown eyes, big reassuring smile
+    outfit: >-
+      royal-blue varsity jacket with a dark-red striped collar over a white T-shirt,
+      backpack, small first-aid pouch on his belt
     refs: [ahmed_photo, ahmed_art, ahmed_body_art]
 
   adham:
     name: Adham
     role: Muscles and laughs.
     look: >-
-      young man, backwards dark cap, full dark beard, muscular build
-    outfit: red-and-navy halved football jersey, dark shorts
+      young Egyptian man with a very muscular gym body (big arms, broad chest), short
+      dark hair under a backwards dark cap, full short dark beard, calm half-smile
+    outfit: >-
+      football jersey split half dark red and half navy blue with no logos and no
+      sponsor text, dark track pants
     # Q: Bondo's caption says "Adam's close friend" - is "Adam" Adham?
     refs: [adham_photo, adham_art, adham_body_art]
 
   aliyy:
     name: Aliyy
-    role: Omar's loyal friend.
-    look: young man, short dark curly hair, lean athletic build
-    outfit: navy-and-white horizontal striped T-shirt, dark blue jeans, black smartwatch
+    role: Omar's best friend (not Ali).
+    # Canon: aged to his early forties; the friends lineup art still shows him young.
+    look: >-
+      Egyptian man in his early forties, short dark curly hair with a little grey,
+      friendly grin
+    outfit: navy-and-white horizontal striped T-shirt (his signature), dark blue jeans
     refs: [aliyy_photo, aliyy_art, aliyy_body_art]
 
   ali:
     name: Ali
     role: Always just in time.
     look: >-
-      young man, voluminous dark curly hair falling over the forehead, thick black
-      rectangular glasses, light skin
-    outfit: black hoodie or black T-shirt, glowing blue smartwatch on the wrist
+      young Egyptian man around 20, big messy dark curly hair, thick black rectangular
+      glasses (not round, so he never looks like Mohamed), calm serious eyes
+    outfit: >-
+      black hoodie, thin silver chain bracelet, a watch-like device with a glowing
+      blue-white ring on his left wrist
     refs: [ali_photo, ali_art, ali_body_art]
 
   omar:
     name: Omar
     role: Owner of Nile Group.
-    look: young man, very short dark hair, slim face, brown skin
-    outfit: black suit and black shirt, silver wristwatch, hands often steepled
+    # Canon: aged to his early forties; the friends lineup art still shows him young.
+    look: >-
+      Egyptian businessman in his early forties, a little grey at the temples, mature
+      confident face, short dark curly hair, clean-shaven, sharp jaw, calm eyes
+    outfit: tailored black suit over a black shirt, wristwatch
     refs: [omar_photo, omar_art, omar_body_art]
 
   # ----------------------------------------------------------- support network

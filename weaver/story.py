@@ -101,6 +101,7 @@ class Style:
     style_ref: str | None
     setting_ref: str | None
     medium: str | None = None  # opening words of every prompt (strongest style signal)
+    house_sources: tuple[str, ...] = ()  # artwork files drawn in the approved style
 
 
 def load_characters(path: Path = STORY_DIR / "characters.yaml") -> dict[str, Character]:
@@ -116,7 +117,8 @@ def load_style(path: Path = STORY_DIR / "style.yaml") -> Style:
     d = yaml.safe_load(path.read_text(encoding="utf-8"))
     return Style(description=d["description"].strip(), no_text=d["no_text"].strip(),
                  identity_rule=d["identity_rule"].strip(), style_ref=d.get("style_ref"),
-                 setting_ref=d.get("setting_ref"), medium=d.get("medium"))
+                 setting_ref=d.get("setting_ref"), medium=d.get("medium"),
+                 house_sources=tuple(d.get("house_style_sources", [])))
 
 
 def default_script_path() -> Path:

@@ -18,6 +18,7 @@ class RefSlot:
     purpose: str            # identity | drawn | outfit | style | setting | explicit
     character: str | None = None
     kind: str = "art"       # photo | art
+    style_anchor: bool = False  # art in the house style: "draw it in the style of this image"
 
 
 @dataclass(frozen=True)
@@ -64,7 +65,9 @@ def select_refs(panel: Panel, bible: dict[str, Character], style: Style, lib: Re
         if lib.specs[ref].kind != "photo" and any(lib.specs.get(r) and lib.specs[r].kind == "photo" for r in char.refs):
             warnings.append(f"{char.name}: real photo not on disk, using approved artwork for identity")
         if len(slots) < max_refs:
-            slots.append(RefSlot(ref, "identity", cid, lib.specs[ref].kind))
+            spec = lib.specs[ref]
+            slots.append(RefSlot(ref, "identity", cid, spec.kind,
+                                 style_anchor=spec.kind == "art" and spec.source in style.house_sources))
             used.add(ref)
     # The character as already drawn in the approved artwork: carries both the face
     # in the house style and the style itself, so it outranks a generic style anchor.
@@ -75,8 +78,8 @@ def select_refs(panel: Panel, bible: dict[str, Character], style: Style, lib: Re
         if ref:
             slots.append(RefSlot(ref, "drawn", cid))
             used.add(ref)
-    has_drawn = any(s.purpose == "drawn" for s in slots)
-    if not has_drawn and style.style_ref and lib.available(style.style_ref) and len(slots) < max_refs:
+    has_anchor = any(s.purpose == "drawn" or s.style_anchor for s in slots)
+    if not has_anchor and style.style_ref and lib.available(style.style_ref) and len(slots) < max_refs:
         slots.append(RefSlot(style.style_ref, "style"))
         used.add(style.style_ref)
     if (panel.setting and style.setting_ref and style.setting_ref not in used
@@ -95,7 +98,7 @@ def select_refs(panel: Panel, bible: dict[str, Character], style: Style, lib: Re
 
 def build_prompt(panel: Panel, bible: dict[str, Character], style: Style, slots: list[RefSlot]) -> str:
     index = {(s.purpose, s.character): i for i, s in enumerate(slots)}
-    drawn = [i for i, s in enumerate(slots) if s.purpose == "drawn"]
+    anchors = [i for i, s in enumerate(slots) if s.purpose == "drawn" or s.style_anchor]
     opening = style.medium or "Comic book panel"
     lines = [f"{opening}, {panel.shot}: {panel.scene}." if panel.shot else f"{opening}: {panel.scene}."]
     has_identity = False
@@ -124,9 +127,9 @@ def build_prompt(panel: Panel, bible: dict[str, Character], style: Style, slots:
         lines.append("Use " + ", ".join(f"image {i}" for i in explicit) + " as visual references for this scene.")
     if has_identity:
         lines.append(style.identity_rule)
-    if drawn:
+    if anchors:
         lines.append(f"Draw the whole image in exactly the same art style as "
-                     f"{', '.join(f'image {i}' for i in drawn)}: {style.description}.")
+                     f"{', '.join(f'image {i}' for i in anchors)}: {style.description}.")
     elif ("style", None) in index:
         lines.append(f"Draw it in the exact art style of image {index[('style', None)]}: {style.description}.")
     else:

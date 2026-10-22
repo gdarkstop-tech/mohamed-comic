@@ -9,6 +9,14 @@
 style_ref: cairo_night_skyline        # cover-style Cairo night (no lettering)
 setting_ref: cairo_night_skyline      # Nile, lit bridges, pyramids for exteriors
 
+# Artwork drawn in the approved house style. A character whose only identity
+# reference is art from one of these files is drawn "in the style of" that art,
+# with no extra style anchor. (The support-network and villains sheets use the
+# flatter inked style the author rejected, so they are not listed.)
+house_style_sources:
+  - source/cover_chapter_one.webp
+  - source/friends_lineup.webp
+
 # Opening words of every prompt; the model weighs them most. The author picked
 # test #4 (2026-10-21, flux-2-klein-9b) as the closest to Mohamed and to the comic:
 # a painted comic-book-cover look WITH subtle ink outlines. Plain "comic book
